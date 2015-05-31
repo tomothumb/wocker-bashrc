@@ -142,7 +142,7 @@ wocker() {
 
   local version='0.5.0'
   local red=31
-  local image='tomothumb/wocker:latest'
+  local image='tomothumb/wocker-dockerfile:latest'
   local cname
   local ports
   local cid
