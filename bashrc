@@ -85,6 +85,19 @@ wocker_destroy_usage() {
   echo 'Force remove all containers and local related files'
 }
 
+wocker_wordmove_usage() {
+  echo 'Usage: wocker wordmove'
+  echo ''
+  echo 'Execute Wordmovev in the running container'
+  echo ''
+  echo 'See: https://github.com/welaika/wordmove'
+  echo 'Tasks:'
+  echo '    wordmove help [TASK]   Describe available tasks or one specific task'
+  echo '    wordmove init          Generates a brand new Movefile'
+  echo '    wordmove pull          Pulls WP data from remote host to the local machine'
+  echo '    wordmove push          Pushes WP data from local machine to remote host'
+}
+
 wocker_wp_usage() {
   echo 'Usage: wocker wp COMMAND SUBCOMMAND arg...'
   echo ''
@@ -129,7 +142,7 @@ wocker() {
 
   local version='0.5.0'
   local red=31
-  local image='wocker/wocker:latest'
+  local image='tomothumb/wocker:latest'
   local cname
   local ports
   local cid
@@ -193,6 +206,7 @@ wocker() {
           docker rm -f $(docker ps -l -q) && \
           docker run -d --name $cname -p 80:80 -p 3306:3306 -v ~/data/${dirname}:/var/www/wordpress:rw $image
         fi
+        wocker wordmove init
 
       fi
       ;;
@@ -298,6 +312,23 @@ wocker() {
         echo "Version: $version"
       fi
       ;;
+
+    #
+    # $ wocker wordmove
+    #
+    'wordmove' )
+
+      if [[ "$2" = '--help' ]]; then
+        wocker_wordmove_usage
+      else
+        if [[ $(docker ps -q) ]]; then
+          cid=$(docker ps -q)
+          if [[ ! $cid =~ $'\n' ]]; then
+            docker exec $cid wordmove --allow-root ${@:2}
+          fi
+        fi
+      fi
+    ;;
 
     #
     # $ wocker wp
