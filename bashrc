@@ -206,7 +206,7 @@ wocker() {
           docker rm -f $(docker ps -l -q) && \
           docker run -d --name $cname -p 80:80 -p 3306:3306 -v ~/data/${dirname}:/var/www/wordpress:rw $image
         fi
-        wocker wordmove init
+#        wocker wordmove init
 
       fi
       ;;
