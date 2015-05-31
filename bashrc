@@ -206,7 +206,7 @@ wocker() {
           docker rm -f $(docker ps -l -q) && \
           docker run -d --name $cname -p 80:80 -p 3306:3306 -v ~/data/${dirname}:/var/www/wordpress:rw $image
         fi
-#        wocker wordmove init
+        wocker wordmove init
 
       fi
       ;;
@@ -323,9 +323,9 @@ wocker() {
       else
         if [[ $(docker ps -q) ]]; then
           cid=$(docker ps -q)
-#          if [[ ! $cid =~ $'\n' ]]; then
-#            docker exec $cid wordmove --allow-root ${@:2}
-#          fi
+          if [[ ! $cid =~ $'\n' ]]; then
+            docker exec $cid wordmove ${@:2}
+          fi
         fi
       fi
     ;;
