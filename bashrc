@@ -323,9 +323,9 @@ wocker() {
       else
         if [[ $(docker ps -q) ]]; then
           cid=$(docker ps -q)
-          if [[ ! $cid =~ $'\n' ]]; then
+#          if [[ ! $cid =~ $'\n' ]]; then
 #            docker exec $cid wordmove --allow-root ${@:2}
-          fi
+#          fi
         fi
       fi
     ;;
